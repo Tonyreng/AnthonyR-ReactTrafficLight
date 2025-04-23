@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import Buttons from "./Buttons";
 
 const TrafficLight = () => {
@@ -22,40 +22,36 @@ const TrafficLight = () => {
     boxShadow: "inset 0 0 10px #000",
   };
 
-  let red = {
-    backgroundColor: "red",
-  };
-
-  let yellow = {
-    backgroundColor: "yellow",
-  };
-
-  let green = {
-    backgroundColor: "green",
-  };
-
-  let [turnOnRed, setTurnOnRed] = useState("");
-  let [turnOnYellow, setTurnOnYellow] = useState("");
-  let [turnOnGreen, setTurnOnGreen] = useState("");
+  const [currentLight, setCurrentLight] = useState(null);
+  const intervalId = useRef(null);
 
   const turnOnLight = (e) => {
-    if (turnOnRed === "" && e.target.id === "red") {
-      setTurnOnRed("bg-danger");
-    } else {
-      setTurnOnRed("");
-    }
+    setCurrentLight(e.target.id);
+  };
 
-    if (turnOnYellow === "" && e.target.id === "yellow") {
-      setTurnOnYellow("bg-warning");
+  const changeLight = () => {
+    if (currentLight === null) {
+      setCurrentLight("red");
+    } else if (currentLight === "red") {
+      setCurrentLight("yellow");
+    } else if (currentLight === "yellow") {
+      setCurrentLight("green");
     } else {
-      setTurnOnYellow("");
+      setCurrentLight("red");
     }
+  };
 
-    if (turnOnGreen === "" && e.target.id === "green") {
-      setTurnOnGreen("bg-success");
-    } else {
-      setTurnOnGreen("");
+  const interval = () => {
+    setInterval(() => {}, 1000);
+  };
+
+  const getClass = (color) => {
+    if (color === currentLight) {
+      if (color === "red") return "bg-danger";
+      if (color === "yellow") return "bg-warning";
+      if (color === "green") return "bg-success";
     }
+    return "";
   };
 
   return (
@@ -63,24 +59,24 @@ const TrafficLight = () => {
       <div className="trafficLight m-auto mb-5" style={trafficLight}>
         <div
           id="red"
-          className={turnOnRed}
+          className={getClass("red")}
           style={light}
           onClick={turnOnLight}
         ></div>
         <div
           id="yellow"
-          className={turnOnYellow}
+          className={getClass("yellow")}
           style={light}
           onClick={turnOnLight}
         ></div>
         <div
           id="green"
-          className={turnOnGreen}
+          className={getClass("green")}
           style={light}
           onClick={turnOnLight}
         ></div>
       </div>
-      <Buttons />
+      <Buttons changeLight={changeLight} interval={interval} />
     </>
   );
 };
