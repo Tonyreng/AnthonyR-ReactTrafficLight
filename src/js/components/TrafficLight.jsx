@@ -23,6 +23,7 @@ const TrafficLight = () => {
   };
 
   const [currentLight, setCurrentLight] = useState(null);
+  const [lights, setLights] = useState(["red", "yellow", "green"]);
   const intervalId = useRef(null);
 
   const turnOnLight = (e) => {
@@ -30,19 +31,23 @@ const TrafficLight = () => {
   };
 
   const changeLight = () => {
-    if (currentLight === null) {
-      setCurrentLight("red");
-    } else if (currentLight === "red") {
-      setCurrentLight("yellow");
-    } else if (currentLight === "yellow") {
-      setCurrentLight("green");
-    } else {
-      setCurrentLight("red");
+    for (let i = 0; i < lights.length; i++) {
+      if (currentLight === null) {
+        setCurrentLight(lights[0]);
+      } else if (currentLight === lights[i - 1]) {
+        setCurrentLight(lights[i]);
+      } else if (currentLight === lights[lights.length - 1]) {
+        setCurrentLight(lights[0]);
+      }
     }
   };
 
   const interval = () => {
     setInterval(() => {}, 1000);
+  };
+
+  const addColor = (color) => {
+    setLights((prevLight) => [...prevLight, color]);
   };
 
   const getClass = (color) => {
@@ -57,26 +62,23 @@ const TrafficLight = () => {
   return (
     <>
       <div className="trafficLight m-auto mb-5" style={trafficLight}>
-        <div
-          id="red"
-          className={getClass("red")}
-          style={light}
-          onClick={turnOnLight}
-        ></div>
-        <div
-          id="yellow"
-          className={getClass("yellow")}
-          style={light}
-          onClick={turnOnLight}
-        ></div>
-        <div
-          id="green"
-          className={getClass("green")}
-          style={light}
-          onClick={turnOnLight}
-        ></div>
+        {lights.map((color, idx) => (
+          <div
+            key={idx}
+            id={color}
+            onClick={turnOnLight}
+            style={{
+              ...light,
+              backgroundColor: currentLight === color ? color : "#111",
+            }}
+          ></div>
+        ))}
       </div>
-      <Buttons changeLight={changeLight} interval={interval} />
+      <Buttons
+        changeLight={changeLight}
+        interval={interval}
+        addColor={addColor}
+      />
     </>
   );
 };

@@ -4,7 +4,7 @@ const Buttons = (props) => {
   return (
     <>
       <div className="d-flex flex-column align-items-center  m-3">
-        <label for="exampleColorInput" className="form-label">
+        <label htmlFor="exampleColorInput" className="form-label">
           Agrega un color
         </label>
         <input
@@ -12,7 +12,7 @@ const Buttons = (props) => {
           className="form-control form-control-color"
           id="exampleColorInput"
           title="Choose your color"
-          onChange={props.addColor}
+          onChange={(e) => props.addColor(e.target.value)}
         />
       </div>
       <div className="container d-flex justify-content-between gap-2">

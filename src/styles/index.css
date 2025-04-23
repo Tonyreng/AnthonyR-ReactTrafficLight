@@ -17,13 +17,13 @@ body {
 
 .trafficLight::before {
   content: "";
-  position: absolute;
+  position: fixed;
   width: 25px;
-  height: 150px;
+  height: 300px;
   background: #333;
   box-shadow: 0 0 10px #000;
   position: absolute;
-  top: 18%;
+  top: 8%;
   border-radius: 5px;
   z-index: -1;
 }
