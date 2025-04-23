@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 
 const TrafficLight = () => {
   let trafficLight = {
@@ -22,22 +22,61 @@ const TrafficLight = () => {
   };
 
   let red = {
-    backgroundColor: 'red',
-  }
-  
+    backgroundColor: "red",
+  };
+
   let yellow = {
-    backgroundColor: 'yellow',
-  }
+    backgroundColor: "yellow",
+  };
 
   let green = {
-    backgroundColor: 'green',
-  }
-  
+    backgroundColor: "green",
+  };
+
+  let [turnOnRed, setTurnOnRed] = useState("");
+  let [turnOnYellow, setTurnOnYellow] = useState("");
+  let [turnOnGreen, setTurnOnGreen] = useState("");
+
+  const turnOnLight = (e) => {
+    if (turnOnRed === "" && e.target.id === "red") {
+      setTurnOnRed("bg-danger");
+    } else {
+      setTurnOnRed("");
+    }
+
+    if (turnOnYellow === "" && e.target.id === "yellow") {
+      setTurnOnYellow("bg-warning");
+    } else {
+      setTurnOnYellow("");
+    }
+
+    if (turnOnGreen === "" && e.target.id === "green") {
+      setTurnOnGreen("bg-success");
+    } else {
+      setTurnOnGreen("");
+    }
+  };
+
   return (
     <div className="trafficLight" style={trafficLight}>
-      <div className="" style={light}></div>
-      <div style={light}></div>
-      <div style={light}></div>
+      <div
+        id="red"
+        className={turnOnRed}
+        style={light}
+        onClick={turnOnLight}
+      ></div>
+      <div
+        id="yellow"
+        className={turnOnYellow}
+        style={light}
+        onClick={turnOnLight}
+      ></div>
+      <div
+        id="green"
+        className={turnOnGreen}
+        style={light}
+        onClick={turnOnLight}
+      ></div>
     </div>
   );
 };
