@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import Buttons from "./Buttons";
 
 const TrafficLight = () => {
   let trafficLight = {
@@ -58,26 +59,29 @@ const TrafficLight = () => {
   };
 
   return (
-    <div className="trafficLight" style={trafficLight}>
-      <div
-        id="red"
-        className={turnOnRed}
-        style={light}
-        onClick={turnOnLight}
-      ></div>
-      <div
-        id="yellow"
-        className={turnOnYellow}
-        style={light}
-        onClick={turnOnLight}
-      ></div>
-      <div
-        id="green"
-        className={turnOnGreen}
-        style={light}
-        onClick={turnOnLight}
-      ></div>
-    </div>
+    <>
+      <div className="trafficLight m-auto mb-5" style={trafficLight}>
+        <div
+          id="red"
+          className={turnOnRed}
+          style={light}
+          onClick={turnOnLight}
+        ></div>
+        <div
+          id="yellow"
+          className={turnOnYellow}
+          style={light}
+          onClick={turnOnLight}
+        ></div>
+        <div
+          id="green"
+          className={turnOnGreen}
+          style={light}
+          onClick={turnOnLight}
+        ></div>
+      </div>
+      <Buttons />
+    </>
   );
 };
 
