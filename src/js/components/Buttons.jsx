@@ -13,6 +13,7 @@ const Buttons = (props) => {
           id="exampleColorInput"
           title="Choose your color"
           onChange={(e) => props.addColor(e.target.value)}
+          onBlur={props.addLight}
         />
       </div>
       <div className="container d-flex justify-content-between gap-2">

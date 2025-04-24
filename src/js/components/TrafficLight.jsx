@@ -24,6 +24,7 @@ const TrafficLight = () => {
 
   const [currentLight, setCurrentLight] = useState(null);
   const [lights, setLights] = useState(["red", "yellow", "green"]);
+  const [color, setColor] = useState(null);
   const intervalId = useRef(null);
 
   const turnOnLight = (e) => {
@@ -47,16 +48,12 @@ const TrafficLight = () => {
   };
 
   const addColor = (color) => {
-    setLights((prevLight) => [...prevLight, color]);
+    setColor(color);
+    // setLights((prevLight) => [...prevLight, color]);
   };
 
-  const getClass = (color) => {
-    if (color === currentLight) {
-      if (color === "red") return "bg-danger";
-      if (color === "yellow") return "bg-warning";
-      if (color === "green") return "bg-success";
-    }
-    return "";
+  const addLight = () => {
+    setLights((prevLight) => [...prevLight, color]);
   };
 
   return (
@@ -78,6 +75,7 @@ const TrafficLight = () => {
         changeLight={changeLight}
         interval={interval}
         addColor={addColor}
+        addLight={addLight}
       />
     </>
   );
