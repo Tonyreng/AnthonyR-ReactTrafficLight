@@ -27,7 +27,7 @@ const Buttons = (props) => {
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={props.interval}
+          onClick={props.toggleInterval}
         >
           Crea intervalo
         </button>

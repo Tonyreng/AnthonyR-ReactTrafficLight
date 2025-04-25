@@ -26,6 +26,7 @@ const TrafficLight = () => {
   const [lights, setLights] = useState(["red", "yellow", "green"]);
   const [color, setColor] = useState(null);
   const intervalId = useRef(null);
+  const isPaused = useRef(false);
 
   const turnOnLight = (e) => {
     setCurrentLight(e.target.id);
@@ -44,7 +45,33 @@ const TrafficLight = () => {
   };
 
   const interval = () => {
-    setInterval(() => {}, 1000);
+    intervalId.current = setInterval(() => {
+      if (isPaused.current) {
+        return;
+      }
+      setCurrentLight((prev) => {
+        for (let i = 0; i < lights.length; i++) {
+          if (prev === null) {
+            setCurrentLight(lights[0]);
+          } else if (prev === lights[i - 1]) {
+            setCurrentLight(lights[i]);
+          } else if (prev === lights[lights.length - 1]) {
+            setCurrentLight(lights[0]);
+          }
+        }
+      });
+    }, 1000);
+  };
+
+  const toggleInterval = () => {
+    if (intervalId.current === null) {
+      // Primer click: empezar
+      isPaused.current = false;
+      interval();
+    } else {
+      // Siguientes clicks: pausar o reanudar
+      isPaused.current = !isPaused.current;
+    }
   };
 
   const addColor = (color) => {
@@ -73,7 +100,7 @@ const TrafficLight = () => {
       </div>
       <Buttons
         changeLight={changeLight}
-        interval={interval}
+        toggleInterval={toggleInterval}
         addColor={addColor}
         addLight={addLight}
       />
