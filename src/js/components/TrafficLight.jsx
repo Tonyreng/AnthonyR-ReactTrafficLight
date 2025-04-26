@@ -1,4 +1,4 @@
-import { React, useState, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import Buttons from "./Buttons";
 
 const TrafficLight = () => {
@@ -25,6 +25,7 @@ const TrafficLight = () => {
   const [currentLight, setCurrentLight] = useState(null);
   const [lights, setLights] = useState(["red", "yellow", "green"]);
   const [color, setColor] = useState(null);
+  const [isRunning, setIsRunning] = useState(false);
   const intervalId = useRef(null);
   const isPaused = useRef(false);
 
@@ -65,23 +66,29 @@ const TrafficLight = () => {
 
   const toggleInterval = () => {
     if (intervalId.current === null) {
-      // Primer click: empezar
       isPaused.current = false;
       interval();
+      setIsRunning(true);
     } else {
-      // Siguientes clicks: pausar o reanudar
       isPaused.current = !isPaused.current;
+      setIsRunning((prev) => !prev);
     }
   };
 
   const addColor = (color) => {
     setColor(color);
-    // setLights((prevLight) => [...prevLight, color]);
   };
 
   const addLight = () => {
     setLights((prevLight) => [...prevLight, color]);
   };
+
+  useEffect(() => {
+    if (lights.length > 3 && intervalId.current !== null) {
+      clearInterval(intervalId.current);
+      interval();
+    }
+  }, [lights]);
 
   return (
     <>
@@ -103,6 +110,13 @@ const TrafficLight = () => {
         toggleInterval={toggleInterval}
         addColor={addColor}
         addLight={addLight}
+        intervalButton={
+          intervalId.current === null
+            ? "Crea intervalo"
+            : isRunning
+            ? "Pausa"
+            : "Reanudar"
+        }
       />
     </>
   );
